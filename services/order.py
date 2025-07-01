@@ -3,7 +3,7 @@ from django.db import transaction
 from django.contrib.auth import get_user_model
 from django.db.models import QuerySet
 
-from db.models import Order, Ticket, User
+from db.models import Order, Ticket
 
 
 def create_order(
@@ -14,7 +14,7 @@ def create_order(
     with transaction.atomic():
         try:
             user = get_user_model().objects.get(username=username)
-        except User.DoesNotExist:
+        except get_user_model().DoesNotExist:
             return "There no user with such username"
         order = Order.objects.create(
             user=user,

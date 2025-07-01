@@ -44,8 +44,11 @@ def update_movie_session(
     return movie_session
 
 
-def delete_movie_session_by_id(session_id: int) -> None:
-    MovieSession.objects.get(id=session_id).delete()
+def delete_movie_session_by_id(session_id: int) -> None | str:
+    try:
+        MovieSession.objects.get(id=session_id).delete()
+    except MovieSession.DoesNotExist:
+        return "There is no movie session with that id"
 
 
 def get_taken_seats(movie_session_id: int) -> list[dict]:

@@ -22,7 +22,7 @@ def create_user(
 def get_user(user_id: int) -> User | str:
     try:
         return get_user_model().objects.get(id=user_id)
-    except User.DoesNotExist:
+    except get_user_model().DoesNotExist:
         return f"There no user with id: {user_id}"
 
 
@@ -36,7 +36,7 @@ def update_user(
 ) -> User | str:
     try:
         user = get_user_model().objects.get(id=user_id)
-    except User.DoesNotExist:
+    except get_user_model().DoesNotExist:
         return f"There no user with id: {user_id}"
     if username:
         user.username = username
