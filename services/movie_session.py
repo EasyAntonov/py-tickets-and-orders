@@ -29,8 +29,11 @@ def update_movie_session(
     show_time: str = None,
     movie_id: int = None,
     cinema_hall_id: int = None,
-) -> MovieSession:
-    movie_session = MovieSession.objects.get(id=session_id)
+) -> MovieSession | str:
+    try:
+        movie_session = MovieSession.objects.get(id=session_id)
+    except MovieSession.DoesNotExist:
+        return "There is no movie session with that id"
     if show_time:
         movie_session.show_time = show_time
     if movie_id:

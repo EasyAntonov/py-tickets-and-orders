@@ -19,8 +19,11 @@ def create_user(
     user.save()
 
 
-def get_user(user_id: int) -> User:
-    return get_user_model().objects.get(id=user_id)
+def get_user(user_id: int) -> User | str:
+    try:
+        return get_user_model().objects.get(id=user_id)
+    except User.DoesNotExist:
+        return f"There no user with id: {user_id}"
 
 
 def update_user(
@@ -30,8 +33,11 @@ def update_user(
         email: str = None,
         first_name: str = None,
         last_name: str = None
-) -> User:
-    user = get_user_model().objects.get(id=user_id)
+) -> User | str:
+    try:
+        user = get_user_model().objects.get(id=user_id)
+    except User.DoesNotExist:
+        return f"There no user with id: {user_id}"
     if username:
         user.username = username
     if password:
